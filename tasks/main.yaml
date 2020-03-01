@@ -1,17 +1,7 @@
 ---
-- name: "Fail if OS/Architecture is not supported"
-  fail:
-    msg: "Installing bash-completion on {{ (ansible_os_family | lower) + '_' + (ansible_architecture | lower) }} is unsupported."
-  when:
-    - "(install_bash_completion_packages | default({}))[(ansible_os_family | lower) + '_' + (ansible_architecture | lower)] is not defined"
-    - "bash_completion is defined"
-  tags:
-    - "bash-completion"
 - name: "Install bash-completion"
   package:
     pkg: "{{ install_bash_completion_packages[(ansible_os_family | lower) + '_' + (ansible_architecture | lower)] }}"
     state: "present"
-  when:
-    - "bash_completion is defined"
   tags:
     - "bash-completion"
